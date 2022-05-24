@@ -38,6 +38,17 @@ Because of this, they had to sacrifice many functions that are useful in other s
 | Random vectors \ random payload | 100_000     | 2048 | Cosine   | range         | [link]() |
 | Random vectors \ random payload | 100_000     | 2048 | Cosine   | geo-radius    | [link]() |
 
+### Data Format
+
+Each dataset contains of following files:
+
+* `vectors.npy` - Numpy matrix of vectors. Shape `num_vectors x dim`
+* `payloads.jsonl` - payload values, associated with vectors. Number of lines equal to `num_vectors`
+* `tests.jsonl` - collection of queries with filtering conditions and expected results. Contains fields:
+  * `query` - vector to be used for similarity search
+  * `conditions` - filtering conditions of 3 possible types: `match`, `range`, and `geo`
+  * `closest_ids` - IDs of records, expected to be found with given query
+  * `closest_scores` - similarity scores of associated IDs
 
 ### Sources
 

@@ -2,7 +2,7 @@ import os
 from functools import partial
 
 from generators.config import DATA_DIR
-from generators.random_data.generate import DataGenerator, generate_data
+from generators.generate import DataGenerator, generate_random_dataset
 
 if __name__ == '__main__':
     generator = DataGenerator(vocab_size=1000)
@@ -11,7 +11,7 @@ if __name__ == '__main__':
     #   INT PAYLOAD
     # --------------------
 
-    generate_data(
+    generate_random_dataset(
         generator=generator,
         size=1_000_000,
         dim=100,
@@ -22,10 +22,9 @@ if __name__ == '__main__':
             "b": generator.random_int(100)
         },
         condition_gen=partial(generator.random_match_int, rng=100),
-        ncpu=4
     )
 
-    generate_data(
+    generate_random_dataset(
         generator=generator,
         size=100_000,
         dim=2048,

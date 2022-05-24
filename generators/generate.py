@@ -10,6 +10,7 @@ import numpy as np
 import tqdm
 from functools import partial
 
+from haversine import haversine
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -60,11 +61,11 @@ class DataGenerator:
             }
         }
 
-    def random_random_geo(self, radius=10_000):
+    def random_geo_query(self, radius=10_000):
         return {
             "geo": {
                 **self.random_geo(),
-                "radius": radius
+                "radius": random.randint(1000, radius)
             }
         }
 
@@ -80,7 +81,7 @@ class DataGenerator:
     def check_geo(self, value, condition: dict):
         a = (value['lat'], value['lon'])
         b = (condition['lat'], condition['lon'])
-        return geopy.distance.geodesic(a, b).meters < condition['radius']
+        return haversine(a, b) * 1000 < condition['radius']
 
     def check_condition(self, value, condition):
         if 'match' in condition:
@@ -114,12 +115,9 @@ class DataGenerator:
             payloads: List[dict],
             query: np.ndarray,
             conditions: dict,
-            top=25,
-            pool: Pool = None):
-        if pool:
-            mask = np.array(pool.map(partial(self.check_conditions, conditions=conditions), payloads))
-        else:
-            mask = np.array(list(map(lambda x: self.check_conditions(x, conditions), payloads)))
+            top=25):
+
+        mask = np.array(list(map(lambda x: self.check_conditions(x, conditions), payloads)))
         # Select only matched by payload vectors
         filtered_vectors = vectors[mask]
         # List of original ids
@@ -185,11 +183,7 @@ def generate_samples(
         path,
         condition_generator,
         top=25,
-        ncpu=1
 ):
-    pool = None
-    if ncpu > 1:
-        pool = Pool(processes=ncpu)
     with open(path, "w") as out:
         for i in tqdm.tqdm(range(num_queries)):
             query = generator.random_vectors(1, dim=dim)[0]
@@ -201,7 +195,6 @@ def generate_samples(
                 query=query,
                 conditions=conditions,
                 top=top,
-                pool=pool
             )
 
             out.write(json.dumps(
@@ -214,10 +207,9 @@ def generate_samples(
             ))
 
             out.write("\n")
-    pool.close()
 
 
-def generate_data(
+def generate_random_dataset(
         generator,
         size,
         dim,
@@ -225,7 +217,6 @@ def generate_data(
         num_queries,
         payload_gen,
         condition_gen,
-        ncpu=1
 ):
     os.makedirs(path, exist_ok=True)
     vectors = generator.random_vectors(size, dim)
@@ -247,5 +238,4 @@ def generate_data(
         payloads=payloads,
         path=os.path.join(path, "tests.jsonl"),
         condition_generator=condition_gen,
-        ncpu=ncpu
     )
