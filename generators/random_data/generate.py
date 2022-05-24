@@ -1,9 +1,15 @@
+import json
+import os
 import random
 import string
+from multiprocessing import Pool
 from typing import List
 
 import geopy.distance
 import numpy as np
+import tqdm
+from functools import partial
+
 from sklearn.metrics.pairwise import cosine_similarity
 
 
@@ -102,8 +108,18 @@ class DataGenerator:
 
         raise ValueError(f"Unknown conditions: {conditions}")
 
-    def search(self, vectors: np.ndarray, payloads: List[dict], query: np.ndarray, conditions: dict, top=25):
-        mask = np.array(list(map(lambda x: self.check_conditions(x, conditions), payloads)))
+    def search(
+            self,
+            vectors: np.ndarray,
+            payloads: List[dict],
+            query: np.ndarray,
+            conditions: dict,
+            top=25,
+            pool: Pool = None):
+        if pool:
+            mask = np.array(pool.map(partial(self.check_conditions, conditions=conditions), payloads))
+        else:
+            mask = np.array(list(map(lambda x: self.check_conditions(x, conditions), payloads)))
         # Select only matched by payload vectors
         filtered_vectors = vectors[mask]
         # List of original ids
@@ -120,3 +136,116 @@ class DataGenerator:
         # Original ids before filtering
         original_ids = filtered_ids[top_scores_ids]
         return list(map(int, original_ids)), list(map(float, top_scores))
+
+
+def generate_conditions(seed, condition_generator):
+    if seed % 3 == 0:
+        # Single condition
+        return {
+            "and": [
+                {
+                    'a': condition_generator()
+                }
+            ]
+        }
+
+    if seed % 3 == 1:
+        # Double "and" condition
+        return {
+            "and": [
+                {
+                    "a": condition_generator()
+                },
+                {
+                    "b": condition_generator()
+                }
+            ]
+        }
+
+    if seed % 3 == 2:
+        # Double "or" condition
+        return {
+            "or": [
+                {
+                    "a": condition_generator()
+                },
+                {
+                    "a": condition_generator()
+                }
+            ]
+        }
+
+
+def generate_samples(
+        generator: DataGenerator,
+        num_queries,
+        dim,
+        vectors,
+        payloads,
+        path,
+        condition_generator,
+        top=25,
+        ncpu=1
+):
+    pool = None
+    if ncpu > 1:
+        pool = Pool(processes=ncpu)
+    with open(path, "w") as out:
+        for i in tqdm.tqdm(range(num_queries)):
+            query = generator.random_vectors(1, dim=dim)[0]
+            conditions = generate_conditions(seed=i, condition_generator=condition_generator)
+
+            closest_ids, best_scores = generator.search(
+                vectors=vectors,
+                payloads=payloads,
+                query=query,
+                conditions=conditions,
+                top=top,
+                pool=pool
+            )
+
+            out.write(json.dumps(
+                {
+                    "query": query.tolist(),
+                    "conditions": conditions,
+                    "closest_ids": closest_ids,
+                    "closest_scores": best_scores
+                }
+            ))
+
+            out.write("\n")
+    pool.close()
+
+
+def generate_data(
+        generator,
+        size,
+        dim,
+        path,
+        num_queries,
+        payload_gen,
+        condition_gen,
+        ncpu=1
+):
+    os.makedirs(path, exist_ok=True)
+    vectors = generator.random_vectors(size, dim)
+
+    np.save(os.path.join(path, "vectors.npy"), vectors, allow_pickle=False)
+
+    payloads = [payload_gen() for _ in range(size)]
+
+    with open(os.path.join(path, "payloads.jsonl"), "w") as out:
+        for payload in payloads:
+            out.write(json.dumps(payload))
+            out.write("\n")
+
+    generate_samples(
+        generator=generator,
+        num_queries=num_queries,
+        dim=dim,
+        vectors=vectors,
+        payloads=payloads,
+        path=os.path.join(path, "tests.jsonl"),
+        condition_generator=condition_gen,
+        ncpu=ncpu
+    )
