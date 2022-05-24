@@ -2,14 +2,10 @@ import json
 import os
 import random
 import string
-from multiprocessing import Pool
 from typing import List
 
-import geopy.distance
 import numpy as np
 import tqdm
-from functools import partial
-
 from haversine import haversine
 from sklearn.metrics.pairwise import cosine_similarity
 
