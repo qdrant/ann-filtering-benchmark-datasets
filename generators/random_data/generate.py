@@ -88,14 +88,16 @@ class DataGenerator:
     def check_conditions(self, payload: dict, conditions: dict):
         if 'and' in conditions:
             and_res = True
-            for field, condition in conditions['and'].items():
-                and_res = and_res and self.check_condition(value=payload[field], condition=condition)
+            for field_condition in conditions['and']:
+                for field, condition in field_condition.items():
+                    and_res = and_res and self.check_condition(value=payload[field], condition=condition)
             return and_res
 
         if 'or' in conditions:
             or_res = False
-            for field, condition in conditions['or'].items():
-                or_res = or_res or self.check_condition(value=payload[field], condition=condition)
+            for field_condition in conditions['or']:
+                for field, condition in field_condition.items():
+                    or_res = or_res or self.check_condition(value=payload[field], condition=condition)
             return or_res
 
         raise ValueError(f"Unknown conditions: {conditions}")
@@ -108,6 +110,8 @@ class DataGenerator:
         raw_ids = np.arange(0, len(vectors))
         # List of ids, filtered by payload
         filtered_ids = raw_ids[mask]
+        if len(filtered_vectors) == 0:
+            return [], []
         # Scores among filtered vectors
         scores = cosine_similarity([query], filtered_vectors)[0]
         # Ids in filtered matrix
