@@ -21,19 +21,18 @@ if __name__ == '__main__':
             "a": generator.random_geo(),
             "b": generator.random_geo()
         },
-        condition_gen=partial(generator.random_geo_query, radius=50_000),
+        condition_gen=partial(generator.random_geo_query, radius=2_000_000),
     )
 
     generate_random_dataset(
         generator=generator,
         size=100_000,
         dim=2048,
-        path=os.path.join(DATA_DIR, "random__geo_100k"),
+        path=os.path.join(DATA_DIR, "random_geo_100k"),
         num_queries=10_000,
         payload_gen=lambda: {
             "a": generator.random_geo(),
             "b": generator.random_geo()
         },
-        condition_gen=partial(generator.random_geo_query, radius=50_000),
+        condition_gen=partial(generator.random_geo_query, radius=2_000_000),
     )
-

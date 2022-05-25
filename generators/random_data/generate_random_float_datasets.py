@@ -27,7 +27,7 @@ if __name__ == '__main__':
         generator=generator,
         size=100_000,
         dim=2048,
-        path=os.path.join(DATA_DIR, "random__float_100k"),
+        path=os.path.join(DATA_DIR, "random_float_100k"),
         num_queries=10_000,
         payload_gen=lambda: {
             "a": generator.random_float(),

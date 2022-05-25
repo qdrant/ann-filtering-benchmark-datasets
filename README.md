@@ -27,16 +27,17 @@ Because of this, they had to sacrifice many functions that are useful in other s
 
 ## Data
 
-| description                     | Num vectors | dim  | distance | filters       | link     |
-|---------------------------------|-------------|------|----------|---------------|----------|
-| Random vectors \ random payload | 1_000_000   | 100  | Cosine   | match keyword | [link]() |
-| Random vectors \ random payload | 1_000_000   | 100  | Cosine   | match int     | [link]() |
-| Random vectors \ random payload | 1_000_000   | 100  | Cosine   | range         | [link]() |
-| Random vectors \ random payload | 1_000_000   | 100  | Cosine   | geo-radius    | [link]() |
-| Random vectors \ random payload | 100_000     | 2048 | Cosine   | match keyword | [link]() |
-| Random vectors \ random payload | 100_000     | 2048 | Cosine   | match int     | [link]() |
-| Random vectors \ random payload | 100_000     | 2048 | Cosine   | range         | [link]() |
-| Random vectors \ random payload | 100_000     | 2048 | Cosine   | geo-radius    | [link]() |
+| description                      | Num vectors | dim  | distance | filters       | link     |
+|----------------------------------|-------------|------|----------|---------------|----------|
+| Efficientnet encoded H&M Clothes | 105_100     | 2048 | Cosine   | match keyword | [link]() |
+| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | match keyword | [link]() |
+| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | match int     | [link]() |
+| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | range         | [link]() |
+| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | geo-radius    | [link]() |
+| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | match keyword | [link]() |
+| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | match int     | [link]() |
+| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | range         | [link]() |
+| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | geo-radius    | [link]() |
 
 ### Data Format
 
