@@ -27,17 +27,17 @@ Because of this, they had to sacrifice many functions that are useful in other s
 
 ## Data
 
-| description                      | Num vectors | dim  | distance | filters       | link     |
-|----------------------------------|-------------|------|----------|---------------|----------|
-| Efficientnet encoded H&M Clothes | 105_100     | 2048 | Cosine   | match keyword | [link]() |
-| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | match keyword | [link]() |
-| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | match int     | [link]() |
-| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | range         | [link]() |
-| Random vectors \ random payload  | 1_000_000   | 100  | Cosine   | geo-radius    | [link]() |
-| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | match keyword | [link]() |
-| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | match int     | [link]() |
-| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | range         | [link]() |
-| Random vectors \ random payload  | 100_000     | 2048 | Cosine   | geo-radius    | [link]() |
+| description                      | Num vectors | dim  | distance | filters       | link                                                                                            |
+|----------------------------------|-------------|------|----------|---------------|-------------------------------------------------------------------------------------------------|
+| Efficientnet encoded H&M Clothes | 105 100     | 2048 | Cosine   | match keyword | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm.tgz)                  |
+| Random vectors \ random payload  | 1 000 000   | 100  | Cosine   | match keyword | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m.tgz)   |
+| Random vectors \ random payload  | 1 000 000   | 100  | Cosine   | match int     | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_1m.tgz)       |
+| Random vectors \ random payload  | 1 000 000   | 100  | Cosine   | range         | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_1m.tgz)      |
+| Random vectors \ random payload  | 1 000 000   | 100  | Cosine   | geo-radius    | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_1m.tgz)        |
+| Random vectors \ random payload  | 100 000     | 2048 | Cosine   | match keyword | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_100k.tgz) |
+| Random vectors \ random payload  | 100 000     | 2048 | Cosine   | match int     | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_100k.tgz)     |
+| Random vectors \ random payload  | 100 000     | 2048 | Cosine   | range         | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_100k.tgz)    |
+| Random vectors \ random payload  | 100 000     | 2048 | Cosine   | geo-radius    | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_100k.tgz)      |
 
 ### Data Format
 
@@ -53,7 +53,6 @@ Each dataset contains of following files:
 
 ### Sources
 
-
-* Random data generator - [ToDo]
-* Image data https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations
-* Image embeddings generator
+* Random data generator - [script](./generators/random_data)
+* Image data - [kaggle](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations)
+* Image embeddings generator - [colab](https://colab.research.google.com/drive/1u5-gZjPzfDP50c7LQztlVd78kGPyTAb1?usp=sharing)
