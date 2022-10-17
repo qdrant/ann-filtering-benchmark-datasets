@@ -72,7 +72,9 @@ class DataGenerator:
         return condition['gt'] < value < condition['lt']
 
     def check_match(self, value, condition: dict):
-        return value == condition['value']
+        return (
+            condition['value'] in value if isinstance(value, list) else value == condition['value']
+        )
 
     def check_geo(self, value, condition: dict):
         a = (value['lat'], value['lon'])
@@ -113,7 +115,8 @@ class DataGenerator:
             conditions: dict,
             top=25):
 
-        mask = np.array(list(map(lambda x: self.check_conditions(x, conditions), payloads)))
+        mask = np.array([self.check_conditions(payload, conditions) for payload in payloads])
+
         # Select only matched by payload vectors
         filtered_vectors = vectors[mask]
         # List of original ids
