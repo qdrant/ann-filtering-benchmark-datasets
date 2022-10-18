@@ -29,7 +29,7 @@ Because of this, they had to sacrifice many functions that are useful in other s
 
 | description                      | Num vectors | dim  | distance | filters               | link                                                                                            |
 |----------------------------------|-------------|------|----------|-----------------------|-------------------------------------------------------------------------------------------------|
-| all-MiniLM-L6-v2 encoded titles  | 2 138 591   | 384  | Cosine   | match keyword / range | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv.tgz)                | 
+| all-MiniLM-L6-v2 ArXiv titles    | 2 138 591   | 384  | Cosine   | match keyword / range | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv.tar.gz)             | 
 | Efficientnet encoded H&M Clothes | 105 100     | 2048 | Cosine   | match keyword         | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm.tgz)                  |
 | Random vectors \ random payload  | 1 000 000   | 100  | Cosine   | match keyword         | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m.tgz)   |
 | Random vectors \ random payload  | 1 000 000   | 100  | Cosine   | match int             | [link](https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_1m.tgz)       |
