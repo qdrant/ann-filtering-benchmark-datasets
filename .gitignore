@@ -4,4 +4,16 @@ __pycache__
 .idea
 .coverage
 htmlcov
-data
+
+!/data/arxiv/arxiv-metadata-oai-snapshot.json
+!/data/arxiv/payloads.jsonl
+!/data/arxiv/filters.json
+!/data/arxiv/tests.jsonl
+!/data/arxiv/vectors.npy
+
+!/data/hnm/filters.json
+!/data/hnm/payloads.jsonl
+!/data/hnm/tests.jsonl
+!/data/hnm/vectors.npy
+
+
