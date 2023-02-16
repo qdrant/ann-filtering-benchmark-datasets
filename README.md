@@ -52,6 +52,28 @@ Each dataset contains of following files:
   * `closest_ids` - IDs of records, expected to be found with given query
   * `closest_scores` - similarity scores of associated IDs
 
+### Example queries
+
+```
+{
+  "query": [-0.034, -0.185, -0.21, ...],
+  "conditions": {
+    "and": [
+      {
+        "department_name": {
+          "match": {
+            "value": "Baby Exclusive"
+          }
+        }
+      }
+    ]
+  },
+  "closest_ids": [565, 15631, 100747, ....],
+  "closest_scores": [0.734, 0.698, 0.697, 0.689, ...]
+}
+
+```
+
 ### Sources
 
 * Random data generator - [script](./generators/random_data)
