@@ -112,7 +112,7 @@ class DataGenerator:
             vectors: np.ndarray,
             payloads: List[dict],
             query: np.ndarray,
-            conditions: dict,
+            conditions: dict = None,
             top=25):
 
         mask = np.array([self.check_conditions(payload, conditions) for payload in payloads])
