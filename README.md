@@ -62,7 +62,7 @@ Each dataset contains of following files:
       {
         "department_name": {
           "match": {
-            "value": "Baby Exclusive"
+            "value": "Divided Shoes"
           }
         }
       }
