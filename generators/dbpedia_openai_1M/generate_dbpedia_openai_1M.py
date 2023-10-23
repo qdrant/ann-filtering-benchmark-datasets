@@ -20,10 +20,12 @@ def main():
     embeddings = np.vstack(embeddings).reshape((-1, 1536))
 
     index_embeddings = embeddings[:SAMPLE_SIZE]
-    query_embeddings = embeddings[SAMPLE_SIZE:]
+    other_embeddings = embeddings[SAMPLE_SIZE:]
 
-    print("Shape of embeddings to be indexed", index_embeddings.shape)
-    print("Shape of embeddings to be queried", query_embeddings.shape)
+    n = 5_000
+
+    print("Shape of embeddings to be stored in db", index_embeddings.shape)
+    print(f"Number of embeddings from remaining embeddings ({other_embeddings.shape}) to be used for querying:", n)
 
     index_qdrant(index_embeddings, [])
 
@@ -34,7 +36,7 @@ def main():
 
     with open(tests_path, "w") as f:
         for query in tqdm.tqdm(search_qdrant(
-                sample_embeddings=query_embeddings,
+                sample_embeddings=other_embeddings,
                 filter_generator=lambda: ({}, {}),
                 n=5000,
                 top=10
