@@ -1,9 +1,6 @@
 import json
 import os
-import random
-from typing import Iterable, Tuple
 
-import pandas as pd
 import numpy as np
 import tqdm
 
@@ -12,7 +9,7 @@ from datasets import load_dataset
 from generators.config import DATA_DIR
 from generators.search_generator.qdrant_generator import index_qdrant, search_qdrant
 
-SAMPLE_SIZE = 100_000
+SAMPLE_SIZE = 900_000 # The dataset has 1 million embeddings in total
 
 
 def main():
@@ -22,12 +19,12 @@ def main():
     embeddings = data.to_pandas()['openai'].to_numpy()
     embeddings = np.vstack(embeddings).reshape((-1, 1536))
 
-    embeddings_sample = embeddings[:SAMPLE_SIZE]
-    other_embeddings = embeddings[SAMPLE_SIZE:]
+    indexed_embeddings = embeddings[:SAMPLE_SIZE]
+    query_embeddings = embeddings[SAMPLE_SIZE:]
 
-    print("Emb shape", other_embeddings.shape)
+    print("Emb shape", query_embeddings.shape)
 
-    index_qdrant(embeddings_sample, [])
+    index_qdrant(indexed_embeddings, [])
 
     path = os.path.join(DATA_DIR, "dbpedia_openai", "1M")
     Path(path).mkdir(parents=True, exist_ok=True)
@@ -36,7 +33,7 @@ def main():
 
     with open(tests_path, "w") as f:
         for query in tqdm.tqdm(search_qdrant(
-                sample_embeddings=other_embeddings,
+                sample_embeddings=query_embeddings,
                 filter_generator=lambda: ({}, {}),
                 n=5000,
                 top=10
@@ -46,7 +43,7 @@ def main():
     # save embeddings
 
     os.makedirs(path, exist_ok=True)
-    np.save(os.path.join(path, "vectors.npy"), embeddings_sample)
+    np.save(os.path.join(path, "vectors.npy"), indexed_embeddings)
 
 
 if __name__ == '__main__':
