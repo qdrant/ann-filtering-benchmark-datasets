@@ -19,12 +19,13 @@ def main():
     embeddings = data.to_pandas()['openai'].to_numpy()
     embeddings = np.vstack(embeddings).reshape((-1, 1536))
 
-    indexed_embeddings = embeddings[:SAMPLE_SIZE]
+    index_embeddings = embeddings[:SAMPLE_SIZE]
     query_embeddings = embeddings[SAMPLE_SIZE:]
 
-    print("Emb shape", query_embeddings.shape)
+    print("Shape of embeddings to be indexed", index_embeddings.shape)
+    print("Shape of embeddings to be queried", query_embeddings.shape)
 
-    index_qdrant(indexed_embeddings, [])
+    index_qdrant(index_embeddings, [])
 
     path = os.path.join(DATA_DIR, "dbpedia_openai", "1M")
     Path(path).mkdir(parents=True, exist_ok=True)
@@ -43,7 +44,7 @@ def main():
     # save embeddings
 
     os.makedirs(path, exist_ok=True)
-    np.save(os.path.join(path, "vectors.npy"), indexed_embeddings)
+    np.save(os.path.join(path, "vectors.npy"), index_embeddings)
 
 
 if __name__ == '__main__':
