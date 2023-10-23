@@ -9,7 +9,7 @@ from datasets import load_dataset
 from generators.config import DATA_DIR
 from generators.search_generator.qdrant_generator import index_qdrant, search_qdrant
 
-SAMPLE_SIZE = 900_000 # The dataset has 1 million embeddings in total
+SAMPLE_SIZE = 975_000 # The dataset has 1 million embeddings in total
 
 
 def main():
