@@ -10,6 +10,7 @@ from generators.config import DATA_DIR
 from generators.search_generator.qdrant_generator import index_qdrant, search_qdrant
 
 SAMPLE_SIZE = 975_000 # The dataset has 1 million embeddings in total
+N = 5_000
 
 
 def main():
@@ -22,7 +23,6 @@ def main():
     index_embeddings = embeddings[:SAMPLE_SIZE]
     other_embeddings = embeddings[SAMPLE_SIZE:]
 
-    n = 5_000
 
     print("Shape of embeddings to be stored in db", index_embeddings.shape)
     print(f"Number of embeddings from remaining embeddings ({other_embeddings.shape}) to be used for querying:", n)
@@ -38,7 +38,7 @@ def main():
         for query in tqdm.tqdm(search_qdrant(
                 sample_embeddings=other_embeddings,
                 filter_generator=lambda: ({}, {}),
-                n=5000,
+                n=N,
                 top=10
         )):
             f.write(f"{json.dumps(query)}\n")
