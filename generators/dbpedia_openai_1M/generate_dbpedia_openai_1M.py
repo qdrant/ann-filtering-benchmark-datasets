@@ -25,9 +25,9 @@ def main():
 
 
     print("Shape of embeddings to be stored in db", index_embeddings.shape)
-    print(f"Number of embeddings from remaining embeddings ({other_embeddings.shape}) to be used for querying:", n)
+    print(f"Number of embeddings from remaining embeddings ({other_embeddings.shape}) to be used for querying:", N)
 
-    index_qdrant(index_embeddings, [])
+    index_qdrant(index_embeddings, None)
 
     path = os.path.join(DATA_DIR, "dbpedia_openai", "1M")
     Path(path).mkdir(parents=True, exist_ok=True)
