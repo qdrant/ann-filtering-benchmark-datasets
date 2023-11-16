@@ -57,4 +57,7 @@ def main():
             f.write(f"{json.dumps(query)}\n")
 
 if __name__ == '__main__':
+    # download:
+    # axel -n 100 --alternate https://storage.yandexcloud.net/yandex-research/ann-datasets/t2i_new_groundtruth.public.100K.bin
+    # axel -n 100 --alternate https://storage.yandexcloud.net/yandex-research/ann-datasets/T2I/query.public.100K.fbin
     main()
