@@ -26,10 +26,13 @@ def index_qdrant(embeddings: np.ndarray, payload: list):
         )
     )
 
+    ids = list(range(len(embeddings)))
+
     client.upload_collection(
         collection_name="tmp",
         vectors=embeddings,
         payload=payload,
+        ids=ids,
         batch_size=100,
     )
 
